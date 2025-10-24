@@ -8,8 +8,8 @@ const Home = () => {
       <div className="hero-content">
         <h2>Welcome to GoldTech Hotel</h2>
         <p className="hero-subtitle">Experience luxury and comfort like never before</p>
-        <button className="book-button">Book Now</button>
       </div>
+      <button className="book-button">Book Now</button>
     </div>
   );
 };
