@@ -7,7 +7,7 @@ body {
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #1a1a1a;
+    background-color: #ffffff;
     color: white;
   }
   
@@ -145,5 +145,5 @@ letter-spacing: 2.4px;
   }
   
   .book-button:hover {
-    background: linear-gradient(90deg, #e6b817 13.45%, #a1851b 52.7%, #826d04 90.08%);
+    background: linear-gradient(90deg, #d3c698 13.45%, #edd98f 52.7%, #f4dd6c 90.08%);
   }
