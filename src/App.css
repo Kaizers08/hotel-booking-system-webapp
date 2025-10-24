@@ -19,13 +19,23 @@ body {
     left: 0;
     right: 0;
     z-index: 10;
-    background-color: rgba(0, 0, 0, 0.5);
+    width: 1440px;
+height: 30px;
+flex-shrink: 0;
+background: linear-gradient(90deg, #19150A 0%, #141109 50.01%, #4A3C17 100%);
   }
   
   .logo {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #d4af37;
+font-family: "Playfair Display";
+font-size: 36px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+letter-spacing: 1.8px;
+background: linear-gradient(90deg, #D9B129 0%, #E1C669 50%, #D4B039 100%);
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
   }
   
   .nav {
@@ -61,9 +71,18 @@ body {
   }
   
   .hero-content {
-    background-color: rgba(0, 0, 0, 0.5);
+background: linear-gradient(90deg, #D9B129 0%, #E1C669 50%, #D4B039 100%);
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
     padding: 40px;
     border-radius: 10px;
+    font-family: "Playfair Display";
+font-size: 48px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+letter-spacing: 2.4px;
   }
   
   .hero-content h2 {
@@ -77,6 +96,16 @@ body {
     margin-bottom: 30px;
   }
   
+  .hero-subtitle {
+    color: #E8E8E8;
+    font-family: "Open Sans";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    letter-spacing: 1.2px;
+  }
+
   .book-button {
     background-color: #d4af37;
     color: black;
