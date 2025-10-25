@@ -13,6 +13,7 @@ const Home = () => {
         </div>
         <button className="book-button">Book Now</button>
       </div>
+      <br></br>
       <FeaturedHotels />
     </>
   );

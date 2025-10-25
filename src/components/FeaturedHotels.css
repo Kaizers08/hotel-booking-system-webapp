@@ -48,8 +48,11 @@
 
 .hotel-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 878px; /* 3 cards * 266px width + 2 gaps * 40px gap */
+  margin: 0 auto;
+  gap: 100px;
+  padding-right: 8rem;
 }
 
 .hotel-card {
@@ -66,28 +69,56 @@
 
 .hotel-image {
   width: 100%;
-  height: 200px;
+  height: 176px;
   object-fit: cover;
 }
 
 .hotel-info {
-  padding: 20px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: calc(100% - 176px);
+  align-items: flex-start;
+  gap: 5px;
 }
 
 .hotel-info h3 {
-  font-family: "Playfair Display", serif;
-  font-size: 24px;
-  margin-bottom: 10px;
+  color: #FFF;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-bottom: 0;
+}
+
+.hotel-info p {
+  color: #FFF;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 0;
 }
 
 .price {
-  color: #d4af37;
-  font-weight: bold;
+  color: #FFCA1A;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  line-height: normal;
+  margin-bottom: 0;
 }
 
 .details-button {
-  width: 100%;
-  padding: 10px;
+  width: 199px;
+  height: 32px;
+  flex-shrink: 0;
+  padding: 0;
   background: linear-gradient(90deg, #FFCA1A 13.45%, #B3941E 52.7%, #907904 90.08%);
   border: none;
   border-radius: 10px;
@@ -95,5 +126,9 @@
   font-family: "Montserrat", sans-serif;
   font-weight: bold;
   cursor: pointer;
-  margin-top: 15px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
 }
