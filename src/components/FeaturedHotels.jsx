@@ -40,7 +40,7 @@ const HotelCard = ({ hotel }) => (
     <div className="hotel-info">
       <h3>{hotel.name}</h3>
       <p><span className="price">${hotel.price}</span> per night</p>
-      <button className="details-button" onClick={() => alert(`Details for ${hotel.name}:\nPrice: $${hotel.price} per night`)}>View Details</button>
+      <button className="details-button">View Details</button>
     </div>
   </div>
 );
