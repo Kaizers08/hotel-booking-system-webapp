@@ -1,4 +1,5 @@
-import React, { useState } from 'react'; // Minor change to trigger re-evaluation
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './FeaturedHotels.css';
 
 const hotels = [
@@ -46,7 +47,7 @@ const HotelCard = ({ hotel }) => (
     <div className="hotel-info">
       <h3>{hotel.name}</h3>
       <p><span className="price">${hotel.price}</span> per night</p>
-      <button className="details-button">View Details</button>
+      <Link to="/login" className="details-button">View Details</Link>
     </div>
   </div>
 );
@@ -63,13 +64,13 @@ const FeaturedHotels = () => {
       return true;
     }
     if (activeFilter === 'Silver Tier') {
-      return hotel.tier === 'Silver Tier';
+      return hotel.name === 'Silver Tier Room';
     }
     if (activeFilter === 'Gold Tier') {
-      return hotel.tier === 'Gold Tier';
+      return hotel.name === 'Gold Tier Room';
     }
     if (activeFilter === 'Penthouse') {
-      return hotel.tier === 'Penthouse';
+      return hotel.name === 'The Penthouse';
     }
     if (activeFilter === 'Couple\'s Retreat') {
       return hotel.name === 'Couple\'s Retreat';

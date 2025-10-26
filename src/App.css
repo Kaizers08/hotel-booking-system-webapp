@@ -12,65 +12,7 @@ body {
     overflow-x: hidden; /* Remove horizontal scrollbar */
   }
   
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 20px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 10;
-    width: 100%;
-height: 30px;
-flex-shrink: 0;
-background: linear-gradient(90deg, #19150A 0%, #141109 50.01%, #4A3C17 100%);
-  }
-  
-  .logo {
-font-family: "Playfair Display";
-font-size: 36px;
-font-style: normal;
-font-weight: 700;
-line-height: normal;
-letter-spacing: 1.8px;
-background: linear-gradient(90deg, #D9B129 0%, #E1C669 50%, #D4B039 100%);
-background-clip: text;
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-margin-left: 2rem;
-  }
-  
-  .nav {
-    display: flex;
-    gap: 10px;
-    margin-right: 4rem;
-  }
-  
-  .nav-link {
-    color: white;
-    text-decoration: none;
-    border-radius: 15.5px;
-    transition: background-color 0.3s, color 0.3s;
-    height: 31px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 15px; /* Use padding for width */
-    white-space: nowrap; /* Prevent text wrapping */
-    font-family: Montserrat, sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    letter-spacing: 0.8px;
-  }
-  
-  .nav-link:hover, .nav-link.active {
-    background: #483E1F;
-    color: #F3E5AB;
-  }
+
   
   .home {
     width: 100vw;
@@ -124,28 +66,28 @@ letter-spacing: 2.4px;
     background-clip: border-box;
   }
 
-  .book-button {
-    width: 166px;
-    height: 46px;
-    flex-shrink: 0;
-    border: none;
-    border-radius: 23px;
-    background: linear-gradient(90deg, #FFCA1A 13.45%, #B3941E 52.7%, #907904 90.08%);
-    cursor: pointer;
-    transition: background-color 0.3s;
-    
-    color: #000 !important;
-    font-family: Montserrat, sans-serif;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    margin-top: -30px;
-  }
+.book-button {
+  width: 166px;
+  height: 46px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 23px;
+  background: linear-gradient(90deg, #FFCA1A 13.45%, #B3941E 52.7%, #907904 90.08%);
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  color: #000 !important;
+  font-family: Montserrat, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  margin-top: -30px;
+}
   
   .book-button:hover {
     background: linear-gradient(90deg, #d3c698 13.45%, #edd98f 52.7%, #f4dd6c 90.08%);

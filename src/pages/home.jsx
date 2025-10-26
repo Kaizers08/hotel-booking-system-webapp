@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/header';
 import FeaturedHotels from '../components/FeaturedHotels';
 
@@ -11,7 +12,7 @@ const Home = () => {
           <h2>Welcome to GoldTech Hotel</h2>
           <p className="hero-subtitle">Experience luxury and comfort like never before</p>
         </div>
-        <button className="book-button">Book Now</button>
+        <Link to="/login" className="book-button">Book Now</Link>
       </div>
       <br></br>
       <FeaturedHotels />
