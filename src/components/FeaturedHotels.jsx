@@ -83,8 +83,6 @@ const FeaturedHotels = () => {
   return (
     <section className="featured-hotels-section">
       <h2>Find Your Perfect Stay</h2>
-      <br></br>
-      
       <div className="filter-buttons">
         <button className={`filter-btn ${activeFilter === 'All' ? 'active' : ''}`} onClick={() => handleFilterClick('All')}>All</button>
         <button className={`filter-btn ${activeFilter === 'Silver Tier' ? 'active' : ''}`} onClick={() => handleFilterClick('Silver Tier')}>Silver Tier</button>
@@ -93,8 +91,9 @@ const FeaturedHotels = () => {
         <button className={`filter-btn ${activeFilter === 'Couple\'s Retreat' ? 'active' : ''}`} onClick={() => handleFilterClick('Couple\'s Retreat')}>Couple</button>
         <button className={`filter-btn ${activeFilter === 'Seaside View' ? 'active' : ''}`} onClick={() => handleFilterClick('Seaside View')}>Seaside</button>
       </div>
-      <br></br>
       <h2>Featured Hotels</h2>
+      <br></br>
+      <br></br>
       <br></br>
       <br></br>
       <div className="hotel-grid">

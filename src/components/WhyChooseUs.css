@@ -58,8 +58,8 @@
 }
 
 .feature-icon {
-  width: 70px;
-  height: 70px;
+  width: 100px;
+  height: 85px;
   filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.2));
 }
 

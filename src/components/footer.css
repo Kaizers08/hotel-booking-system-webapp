@@ -22,12 +22,13 @@
 }
 
 .footer-section h3 {
-  font-size: 1.5em;
+  font-family: "Playfair Display", serif;
+  font-size: 2em;
   margin-bottom: 20px;
   position: relative;
   display: inline-block;
-  width: 214.71px;
-  height: 26.638px;
+  width: auto;
+  height: auto;
   flex-shrink: 0;
 }
 
@@ -43,7 +44,7 @@
 }
 
 .footer-section p {
-  font-size: 0.95em;
+  font-size: 1em;
   line-height: 1.6;
   margin-bottom: 10px;
 }
@@ -55,6 +56,7 @@
 
 .footer-section ul li {
   margin-bottom: 10px;
+  font-size: 1em;
 }
 
 .footer-section ul li a {

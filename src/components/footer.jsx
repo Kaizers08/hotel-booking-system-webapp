@@ -21,9 +21,9 @@ const Footer = () => {
 
         <div className="footer-section contact-info">
           <h3>Contact Info</h3>
-          <p><span className="icon">&#x1F4CD;</span> 123 Luxury Avenue, Beverly Hills, CA</p>
-          <p><span className="icon">&#x260E;</span> +1(555) 123-4567</p>
-          <p><span className="icon">&#x2709;</span> info@goldtechhotel.com</p>
+          <p><span className="icon">&#128205;</span> 123 Luxury Avenue, Beverly Hills, CA</p>
+          <p><span className="icon">&#128222;</span> +1(555) 123-4567</p>
+          <p><span className="icon">&#9993;</span> info@goldtechhotel.com</p>
         </div>
       </div>
 

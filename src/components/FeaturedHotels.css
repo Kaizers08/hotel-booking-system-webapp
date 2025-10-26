@@ -9,10 +9,7 @@
   font-family: "Playfair Display", serif;
   font-size: 36px;
   margin-bottom: 30px;
-  background: linear-gradient(90deg, #BD9613 0%, #D5A200 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #1a1a1a;
 }
 
 .featured-hotels-section h2 {
@@ -20,6 +17,20 @@
   font-size: 36px;
   margin-bottom: 20px;
   color: #1a1a1a;
+  position: relative;
+  display: inline-block;
+}
+
+.featured-hotels-section h2:not(:first-of-type)::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -10px;
+  width: 70px;
+  height: 3px;
+  background: linear-gradient(90deg, #FFCA1A 13.45%, #B3941E 52.7%, #907904 90.08%);
+  border-radius: 2px;
 }
 
 .filter-buttons {
@@ -31,12 +42,12 @@
 
 .filter-btn {
   background-color: white;
-  border: 1px solid #ccc;
+  border: 1px solid #1a1a1a;
   border-radius: 20px;
-  padding: 10px 25px;
+  padding: 8px 20px;
   cursor: pointer;
   font-family: "Montserrat", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   color: #1a1a1a;
 }
 
