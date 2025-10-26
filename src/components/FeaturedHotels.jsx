@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react'; // Minor change to trigger re-evaluation
 import './FeaturedHotels.css';
 
 const hotels = [
@@ -6,31 +6,37 @@ const hotels = [
     name: 'Family Room',
     price: 299,
     image: '/family room.png',
+    tier: 'Silver Tier',
   },
   {
     name: 'Seaside View',
     price: 349,
     image: '/seasideview.png',
+    tier: 'Gold Tier',
   },
   {
     name: 'Couple\'s Retreat',
     price: 259,
     image: '/couplesretreat.png',
+    tier: 'Silver Tier',
   },
   {
     name: 'Silver Tier Room',
     price: 199,
     image: '/silvertieroom.png',
+    tier: 'Silver Tier',
   },
   {
     name: 'Gold Tier Room',
     price: 399,
     image: '/goldtierroom.png',
+    tier: 'Gold Tier',
   },
   {
     name: 'The Penthouse',
     price: 599,
     image: '/thepenthouse.png',
+    tier: 'Penthouse',
   },
 ];
 
@@ -46,25 +52,53 @@ const HotelCard = ({ hotel }) => (
 );
 
 const FeaturedHotels = () => {
+  const [activeFilter, setActiveFilter] = useState('All');
+
+  const handleFilterClick = (filter) => {
+    setActiveFilter(filter);
+  };
+
+  const filteredHotels = hotels.filter((hotel) => {
+    if (activeFilter === 'All') {
+      return true;
+    }
+    if (activeFilter === 'Silver Tier') {
+      return hotel.tier === 'Silver Tier';
+    }
+    if (activeFilter === 'Gold Tier') {
+      return hotel.tier === 'Gold Tier';
+    }
+    if (activeFilter === 'Penthouse') {
+      return hotel.tier === 'Penthouse';
+    }
+    if (activeFilter === 'Couple\'s Retreat') {
+      return hotel.name === 'Couple\'s Retreat';
+    }
+    if (activeFilter === 'Seaside View') {
+      return hotel.name === 'Seaside View';
+    }
+    return false;
+  });
+
   return (
     <section className="featured-hotels-section">
       <h2>Find Your Perfect Stay</h2>
       <br></br>
       
       <div className="filter-buttons">
-        <button className="filter-btn active">All</button>
-        <button className="filter-btn">Silver Tier</button>
-        <button className="filter-btn">Gold Tier</button>
-        <button className="filter-btn">Penthouse</button>
-        <button className="filter-btn">Couple</button>
-        <button className="filter-btn">Seaside</button>
+        <button className={`filter-btn ${activeFilter === 'All' ? 'active' : ''}`} onClick={() => handleFilterClick('All')}>All</button>
+        <button className={`filter-btn ${activeFilter === 'Silver Tier' ? 'active' : ''}`} onClick={() => handleFilterClick('Silver Tier')}>Silver Tier</button>
+        <button className={`filter-btn ${activeFilter === 'Gold Tier' ? 'active' : ''}`} onClick={() => handleFilterClick('Gold Tier')}>Gold Tier</button>
+        <button className={`filter-btn ${activeFilter === 'Penthouse' ? 'active' : ''}`} onClick={() => handleFilterClick('Penthouse')}>Penthouse</button>
+        <button className={`filter-btn ${activeFilter === 'Couple\'s Retreat' ? 'active' : ''}`} onClick={() => handleFilterClick('Couple\'s Retreat')}>Couple</button>
+        <button className={`filter-btn ${activeFilter === 'Seaside View' ? 'active' : ''}`} onClick={() => handleFilterClick('Seaside View')}>Seaside</button>
       </div>
       <br></br>
       <h2>Featured Hotels</h2>
       <br></br>
       <br></br>
       <div className="hotel-grid">
-        {hotels.map((hotel) => (
+        {filteredHotels.map((hotel) => (
           <HotelCard key={hotel.name} hotel={hotel} />
         ))}
       </div>

@@ -26,6 +26,9 @@
   margin-bottom: 20px;
   position: relative;
   display: inline-block;
+  width: 214.71px;
+  height: 26.638px;
+  flex-shrink: 0;
 }
 
 .footer-section h3::after {
@@ -36,6 +39,7 @@
   width: 50%;
   height: 2px;
   background: linear-gradient(90deg, #F9CC37 0%, #4D400D 100%);
+  border-radius: 5px;
 }
 
 .footer-section p {
