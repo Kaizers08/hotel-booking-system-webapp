@@ -9,7 +9,10 @@
   font-family: "Playfair Display", serif;
   font-size: 36px;
   margin-bottom: 30px;
-  color: #1a1a1a;
+  background: linear-gradient(90deg, #F9CC37 0%, #4D400D 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .featured-hotels-section h2 {
@@ -42,20 +45,21 @@
 
 .filter-btn {
   background-color: white;
-  border: 1px solid #1a1a1a;
-  border-radius: 20px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
   padding: 8px 20px;
   cursor: pointer;
   font-family: "Montserrat", sans-serif;
   font-size: 14px;
-  color: #1a1a1a;
+  color: black;
 }
 
 .filter-btn.active {
   background: linear-gradient(90deg, #FFCA1A 13.45%, #B3941E 52.7%, #907904 90.08%);
-  color: black;
   border: none;
 }
+
+
 
 .hotel-grid {
   display: grid;
@@ -75,7 +79,7 @@
   background: #252525;
   box-shadow: 11px 8px 4px 0px rgba(0, 0, 0, 0.25);
   overflow: hidden;
-  color: white;
+  color: black;
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition for smooth effect */
 }
 
@@ -142,7 +146,7 @@
   background: linear-gradient(90deg, #FFCA1A 13.45%, #B3941E 52.7%, #907904 90.08%);
   border: none;
   border-radius: 10px;
-  color: black;
+  color: rgb(0, 0, 0);
   font-family: "Montserrat", sans-serif;
   font-weight: bold;
   cursor: pointer;
@@ -156,7 +160,8 @@
 
 .details-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  filter: brightness(0.95);
 }
 
 .per-night{

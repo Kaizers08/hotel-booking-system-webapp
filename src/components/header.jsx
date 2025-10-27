@@ -1,16 +1,17 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import './header.css';
 
-const Header = ({ onContactClick }) => {
+const Header = () => {
+    const location = useLocation();
+
     return (
-        <header className ="header">
+        <header className="header">
             <div className="logo">GoldTech Hotel</div>
             <nav className="nav">
-                <a href = "#home" className="nav-link"> Home </a>
-                <a href = "#contact" className="nav-link" onClick={(e) => {
-                    e.preventDefault();
-                    onContactClick && onContactClick();
-                }}> Contact Us </a>
-                <a href="#login" className="nav-link"> Login </a>
+                <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}> Home </Link>
+                <Link to="/contact" className={`nav-link ${location.pathname === '/contact' ? 'active' : ''}`}> Contact Us </Link>
+                <Link to="/login" className={`nav-link ${location.pathname === '/login' || location.pathname === '/register' ? 'active' : ''}`}> Login </Link>
             </nav>
         </header>
     );
