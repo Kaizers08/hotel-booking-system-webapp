@@ -1,16 +1,31 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from '../firebase';
 import './Login.css'; // Custom Login styles
 import Header from '../components/header.jsx';
 import Footer from '../components/footer.jsx';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [loginError, setLoginError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleGoogleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      navigate('/');
+    } catch (error) {
+      console.error('Google sign-in error:', error);
+      setLoginError('Google sign-in failed. Please try again.');
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Example validation logic
     const email = e.target.email.value;
     const password = e.target.password.value;
 
@@ -29,25 +44,22 @@ const Login = () => {
     } else {
       setEmailError('');
       setPasswordError('');
+      setLoginError('');
       setIsLoading(true);
 
-      // Simulate API call
-      setTimeout(() => {
-        if (email !== 'test@example.com') {
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        navigate('/');
+      } catch (error) {
+        setLoginError('Login failed. Please try again.');
+        if (error.code === 'auth/user-not-found') {
           setEmailError('Account not found');
-          setPasswordError('');
-          setIsLoading(false);
-        } else if (password !== 'password') {
+        } else if (error.code === 'auth/wrong-password') {
           setPasswordError('Invalid password');
-          setEmailError('');
-          setIsLoading(false);
-        } else {
-          alert('Login successful!');
-          setEmailError('');
-          setPasswordError('');
-          setIsLoading(false);
         }
-      }, 2000); // 2 second delay
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -68,12 +80,13 @@ const Login = () => {
               <input type="password" id="password" name="password" className="login-input" placeholder="Enter your password" disabled={isLoading} />
               {passwordError && <span className="error-message">{passwordError}</span>}
             </div>
+            {loginError && <p className="login-message">{loginError}</p>}
             <button type="submit" className="login-btn" style={isLoading ? { background: 'green', pointerEvents: 'none' } : {}}>
               {isLoading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
           <div className="or-text">or</div>
-          <button className="google-btn" onClick={() => alert('Google sign-in coming soon!')}>
+          <button className="google-btn" onClick={handleGoogleSignIn}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>

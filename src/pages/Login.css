@@ -102,7 +102,7 @@
   border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
-  margin-top: 20px; /* 2 spaces before button */
+  margin-top: 20px; 
   font-size: 1.1em;
 }
 
@@ -134,7 +134,7 @@
 }
 
 .login-link {
-  margin-top: 20px; /* Farther from button */
+  margin-top: 20px; 
   text-align: center;
   font-size: 14px;
   background: linear-gradient(90deg, #F7C51A 0%, #8B6F10 100%);
@@ -149,4 +149,12 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-decoration: underline;
+}
+
+.login-message {
+  color: #ff4d4d;
+  font-size: 14px;
+  text-align: center;
+  margin: 5px 0 10px 0;
+  font-weight: 500;
 }
