@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase';
 import './Login.css'; // Reuse Login styles
 import Header from '../components/header.jsx';
@@ -21,7 +21,7 @@ const Register = () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      navigate('/');
+      navigate('/dashboard');
     } catch (error) {
       console.error('Google sign-in error:', error);
       setErrors({ general: 'Google sign-in failed. Please try again.' });
@@ -53,7 +53,8 @@ const Register = () => {
       setIsLoading(true);
       try {
         await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-        navigate('/');
+        await updateProfile(auth.currentUser, { displayName: formData.fullName });
+        navigate('/dashboard');
       } catch (error) {
         if (error.code === 'auth/email-already-in-use') {
           newErrors.email = 'Email already in use';

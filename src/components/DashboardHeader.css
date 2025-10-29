@@ -1,4 +1,4 @@
-.header {
+.dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -32,6 +32,7 @@
   display: flex;
   gap: 10px;
   margin-right: 4rem;
+  align-items: center;
 }
 
 .nav-link {
@@ -58,12 +59,14 @@
   color: #F3E5AB;
 }
 
-.welcome-text {
-  color: #D9B129;
+.dashboard-header .nav .welcome-text {
+  color: #E8E8E8 !important;
   font-family: Montserrat, sans-serif;
   font-size: 16px;
-  font-weight: 700;
-  margin: 4px 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0 15px;
 }
 
 .logout-btn {

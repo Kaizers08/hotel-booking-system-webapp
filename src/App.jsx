@@ -1,6 +1,7 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/home';
+import Dashboard from './pages/Dashboard'; // Import the Dashboard page
 import ContactUs from './pages/ContactUs'; // Import the new ContactUs page
 import Login from './pages/Login'; // Import the new Login page
 import Register from './pages/Register'; // Import the new Register page
@@ -21,6 +22,7 @@ function App() {
             <Footer />
           </>
         } />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

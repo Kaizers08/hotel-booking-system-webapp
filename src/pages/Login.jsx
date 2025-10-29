@@ -17,7 +17,7 @@ const Login = () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      navigate('/');
+      navigate('/dashboard');
     } catch (error) {
       console.error('Google sign-in error:', error);
       setLoginError('Google sign-in failed. Please try again.');
@@ -49,7 +49,7 @@ const Login = () => {
 
       try {
         await signInWithEmailAndPassword(auth, email, password);
-        navigate('/');
+        navigate('/dashboard');
       } catch (error) {
         setLoginError('Login failed. Please try again.');
         if (error.code === 'auth/user-not-found') {
