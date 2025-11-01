@@ -5,37 +5,37 @@ import './FeaturedHotels.css';
 const hotels = [
   {
     name: 'Family Room',
-    price: 299,
+    price: 18424,
     image: '/family room.png',
     tier: 'Silver Tier',
   },
   {
     name: 'Seaside View',
-    price: 349,
+    price: 19544,
     image: '/seasideview.png',
     tier: 'Gold Tier',
   },
   {
     name: 'Couple\'s Retreat',
-    price: 259,
+    price: 14504,
     image: '/couplesretreat.png',
     tier: 'Silver Tier',
   },
   {
     name: 'Silver Tier Room',
-    price: 199,
+    price: 11144,
     image: '/silvertieroom.png',
     tier: 'Silver Tier',
   },
   {
     name: 'Gold Tier Room',
-    price: 399,
+    price: 22344,
     image: '/goldtierroom.png',
     tier: 'Gold Tier',
   },
   {
     name: 'The Penthouse',
-    price: 599,
+    price: 33544,
     image: '/thepenthouse.png',
     tier: 'Penthouse',
   },
@@ -46,7 +46,7 @@ const HotelCard = ({ hotel }) => (
     <img src={hotel.image} alt={hotel.name} className="hotel-image" />
     <div className="hotel-info">
       <h3>{hotel.name}</h3>
-      <p><span className="price">${hotel.price}</span> per night</p>
+      <p><span className="price">₱{hotel.price.toLocaleString()}</span> per night</p>
       <Link to="/login" className="details-button">View Details</Link>
     </div>
   </div>
@@ -95,7 +95,7 @@ const FeaturedHotels = () => {
       <h2>Featured Hotels</h2>
       <br></br>
       <br></br>
-      <br></br>
+      <br />
       <br></br>
       <div className="hotel-grid">
         {filteredHotels.map((hotel) => (

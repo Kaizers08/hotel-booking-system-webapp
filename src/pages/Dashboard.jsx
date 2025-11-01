@@ -1,67 +1,104 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import Header from '../components/header';
 import './Dashboard.css';
 
 const rooms = [
   {
     name: 'Silver Tier Room',
-    price: 299,
+    price: 16744,
     image: '/silvertieroom.png',
     category: 'Silver Tier',
-    details: 'Affordable comfort with essential amenities.'
+    details: 'A minimalist yet inviting space, the Silver Tier Room features a plush king-sized bed, modern bedside tables, and soft neutral colors. Warm ambient lighting and crisp linens ensure a restful stay for solo travelers or couples.',
+    available: 5
   },
   {
     name: 'Gold Tier Room',
-    price: 399,
+    price: 22344,
     image: '/goldtierroom.png',
     category: 'Gold Tier',
-    details: 'Premium experience with luxury bedding and views.'
+    details: 'A deluxe suite with sophisticated gold-toned decor, the Gold Tier Room combines comfort and luxury. Guests enjoy a large sofa, premium bedding, and floor-to-ceiling windows overlooking the vibrant cityscape.',
+    available: 3
   },
   {
     name: 'The Penthouse',
-    price: 599,
+    price: 33544,
     image: '/thepenthouse.png',
     category: 'Penthouse',
-    details: 'Exclusive penthouse suite with panoramic views.'
+    details: 'A modern penthouse living room with panoramic city views, elegant furniture, chic décor, and soft ambient lighting—an exclusive space perfect for relaxation or entertaining in style.',
+    available: 1
   },
   {
     name: 'Seaside View Room',
-    price: 349,
+    price: 19544,
     image: '/seasideview.png',
     category: 'Beach',
-    details: 'Enjoy breathtaking ocean views with direct beach access.'
+    details: 'Wake up to soothing ocean waves in the Seaside View room. The design is light and airy, with a cozy queen-sized bed facing a large glass window that opens directly to a beautiful beach scene—ideal for guests seeking peace and tranquil scenery.',
+    available: 4
   },
   {
     name: 'Couple\'s Retreat',
-    price: 259,
+    price: 14504,
     image: '/couplesretreat.png',
     category: 'Romance',
-    details: 'Romantic getaway with intimate amenities.'
+    details: 'Designed for intimacy and comfort, the Couples Retreat boasts panoramic city views, a spacious work area, and elegant lounge chairs for relaxation. Luxurious decor and amenities set the perfect ambiance for a romantic getaway.',
+    available: 2
   },
   {
     name: 'Family Room',
-    price: 329,
+    price: 18424,
     image: '/family room.png',
     category: 'Family',
-    details: 'Perfect for families with space for up to 4 guests.'
+    details: 'Spacious and thoughtfully arranged, the Family Room is ideal for families or small groups. It offers two double beds, generous seating, and soft lighting in a warm, inviting atmosphere, making it perfect for relaxing after a busy day of sightseeing.',
+    available: 6
   },
 ];
 
-const RoomCard = ({ room }) => (
+const RoomCard = ({ room, onViewDetails }) => (
   <div className="room-card">
     <img src={room.image} alt={room.name} className="room-image" />
     <div className="room-info">
       <h3>{room.name}</h3>
-      <p><span className="price">${room.price}</span> per night</p>
-      <Link to="/contact" className="details-button">View Details</Link>
+      <p><span className="price">₱{room.price.toLocaleString()}</span> per night</p>
+      <button onClick={() => onViewDetails(room)} className="details-button">View Details</button>
     </div>
   </div>
 );
 
+const RoomDetailsModal = ({ room, onClose, onBookNow, onReserveRoom }) => {
+  if (!room) return null;
+
+  console.log('Room data:', room); // Debug log
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="room-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-content">
+          <img src={room.image} alt={room.name} className="modal-room-image" />
+          <div className="modal-room-info">
+            <h2 className="modal-room-title">{room.name}</h2>
+            <p className="modal-price">From <span className="modal-price-gold">₱{room.price.toLocaleString()}</span> per night</p>
+            <p className="modal-availability">Available Rooms: <span className="available-count">{room.available}</span></p>
+            <p className="modal-description">{room.details}</p>
+            <div className="modal-buttons">
+              <button onClick={onBookNow} className="modal-book-btn">Book Now</button>
+              <button onClick={onReserveRoom} className="modal-reserve-btn">Reserve Room</button>
+              <button onClick={onClose} className="modal-back-btn">Back</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Dashboard = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [activeFilter, setActiveFilter] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedRoom, setSelectedRoom] = useState(null);
 
   const handleFilterClick = (filter) => {
     setActiveFilter(filter);
@@ -69,6 +106,28 @@ const Dashboard = () => {
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+  };
+
+  const handleViewDetails = (room) => {
+    if (isAuthenticated) {
+      setSelectedRoom(room);
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const handleCloseModal = () => {
+    setSelectedRoom(null);
+  };
+
+  const handleBookNow = () => {
+    // Navigate to payment method page with room data
+    navigate('/payment-method', { state: { room: selectedRoom, action: 'book' } });
+  };
+
+  const handleReserveRoom = () => {
+    // Navigate to payment method page for reservation
+    navigate('/payment-method', { state: { room: selectedRoom, action: 'reserve' } });
   };
 
   const filteredRooms = rooms.filter((room) => {
@@ -131,10 +190,18 @@ const Dashboard = () => {
         <br></br>
         <div className="rooms-grid">
           {filteredRooms.map((room) => (
-            <RoomCard key={room.name} room={room} />
+            <RoomCard key={room.name} room={room} onViewDetails={handleViewDetails} />
           ))}
         </div>
       </div>
+      {selectedRoom && (
+        <RoomDetailsModal
+          room={selectedRoom}
+          onClose={handleCloseModal}
+          onBookNow={handleBookNow}
+          onReserveRoom={handleReserveRoom}
+        />
+      )}
     </div>
   );
 };
