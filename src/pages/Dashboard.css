@@ -608,17 +608,6 @@
   padding-left: 15px;
 }
 
-.section-title::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 4px;
-  height: 24px;
-  background: linear-gradient(135deg, #FFCA1A, #FFB347);
-  border-radius: 2px;
-}
 
 /* Date/Time Selection */
 .date-time-grid {
@@ -632,7 +621,6 @@
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   padding: 20px;
   border-radius: 12px;
-  border-left: 4px solid #FFCA1A;
 }
 
 .summary-row {
