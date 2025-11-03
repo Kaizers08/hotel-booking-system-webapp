@@ -16,7 +16,7 @@
 }
 
 .search-label {
-  font-family: Montserrat, sans-serif;
+  font-family: Montserrat, sans-serif !important;
   font-size: 16px; /* Slightly larger font size */
   color: #333;
   font-weight: normal; /* Not bold */
@@ -70,7 +70,7 @@
   border-radius: 25px;
   padding: 8px 20px;
   cursor: pointer;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat", sans-serif !important;
   font-size: 14px;
   color: black;
   transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
@@ -83,7 +83,7 @@
 }
 
 .featured-title {
-  font-family: "Playfair Display", serif;
+  font-family: "Playfair Display", serif !important;
   font-size: 36px;
   margin-bottom: 20px;
   text-align: center;

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
+import { collection, addDoc } from 'firebase/firestore';
 import './Login.css'; // Reuse Login styles
 import Header from '../components/header.jsx';
 import Footer from '../components/footer.jsx';
@@ -20,7 +21,24 @@ const Register = () => {
   const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // Save Google user data to Firestore
+      console.log('Saving Google user to Firestore:', {
+        email: user.email,
+        displayName: user.displayName,
+        uid: user.uid
+      });
+
+      await addDoc(collection(db, 'users'), {
+        email: user.email,
+        displayName: user.displayName,
+        uid: user.uid,
+        createdAt: new Date()
+      });
+
+      console.log('Google user saved successfully');
       navigate('/dashboard');
     } catch (error) {
       console.error('Google sign-in error:', error);
@@ -54,6 +72,22 @@ const Register = () => {
       try {
         await createUserWithEmailAndPassword(auth, formData.email, formData.password);
         await updateProfile(auth.currentUser, { displayName: formData.fullName });
+
+        // Save user data to Firestore
+        console.log('Saving email user to Firestore:', {
+          email: formData.email,
+          displayName: formData.fullName,
+          uid: auth.currentUser.uid
+        });
+
+        await addDoc(collection(db, 'users'), {
+          email: formData.email,
+          displayName: formData.fullName,
+          uid: auth.currentUser.uid,
+          createdAt: new Date()
+        });
+
+        console.log('Email user saved successfully');
         navigate('/dashboard');
       } catch (error) {
         if (error.code === 'auth/email-already-in-use') {

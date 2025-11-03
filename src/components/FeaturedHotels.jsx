@@ -64,19 +64,22 @@ const FeaturedHotels = () => {
       return true;
     }
     if (activeFilter === 'Silver Tier') {
-      return hotel.name === 'Silver Tier Room';
+      return hotel.tier === 'Silver Tier';
     }
     if (activeFilter === 'Gold Tier') {
-      return hotel.name === 'Gold Tier Room';
+      return hotel.tier === 'Gold Tier';
     }
     if (activeFilter === 'Penthouse') {
-      return hotel.name === 'The Penthouse';
+      return hotel.tier === 'Penthouse';
     }
-    if (activeFilter === 'Couple\'s Retreat') {
+    if (activeFilter === 'Romance') {
       return hotel.name === 'Couple\'s Retreat';
     }
-    if (activeFilter === 'Seaside View') {
+    if (activeFilter === 'Seaside') {
       return hotel.name === 'Seaside View';
+    }
+    if (activeFilter === 'Family') {
+      return hotel.name === 'Family Room';
     }
     return false;
   });
@@ -84,13 +87,16 @@ const FeaturedHotels = () => {
   return (
     <section className="featured-hotels-section">
       <h2>Find Your Perfect Stay</h2>
+
+      {/* Filter Buttons */}
       <div className="filter-buttons">
         <button className={`filter-btn ${activeFilter === 'All' ? 'active' : ''}`} onClick={() => handleFilterClick('All')}>All</button>
         <button className={`filter-btn ${activeFilter === 'Silver Tier' ? 'active' : ''}`} onClick={() => handleFilterClick('Silver Tier')}>Silver Tier</button>
         <button className={`filter-btn ${activeFilter === 'Gold Tier' ? 'active' : ''}`} onClick={() => handleFilterClick('Gold Tier')}>Gold Tier</button>
         <button className={`filter-btn ${activeFilter === 'Penthouse' ? 'active' : ''}`} onClick={() => handleFilterClick('Penthouse')}>Penthouse</button>
-        <button className={`filter-btn ${activeFilter === 'Couple\'s Retreat' ? 'active' : ''}`} onClick={() => handleFilterClick('Couple\'s Retreat')}>Couple</button>
-        <button className={`filter-btn ${activeFilter === 'Seaside View' ? 'active' : ''}`} onClick={() => handleFilterClick('Seaside View')}>Seaside</button>
+        <button className={`filter-btn ${activeFilter === 'Romance' ? 'active' : ''}`} onClick={() => handleFilterClick('Romance')}>Romance</button>
+        <button className={`filter-btn ${activeFilter === 'Seaside' ? 'active' : ''}`} onClick={() => handleFilterClick('Seaside')}>Seaside</button>
+        <button className={`filter-btn ${activeFilter === 'Family' ? 'active' : ''}`} onClick={() => handleFilterClick('Family')}>Family</button>
       </div>
       <h2>Featured Hotels</h2>
       <br></br>

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { doc, setDoc, collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 
 const AuthContext = createContext();
@@ -37,8 +37,33 @@ export const AuthProvider = ({ children }) => {
   const saveBooking = async (bookingData) => {
     if (!user) return;
     try {
+      // Convert transfer proof file to base64 if it exists
+      let transferProofData = null;
+      if (bookingData.transferProof) {
+        transferProofData = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => resolve({
+            name: bookingData.transferProof.name,
+            size: bookingData.transferProof.size,
+            type: bookingData.transferProof.type,
+            data: e.target.result // base64 string
+          });
+          reader.readAsDataURL(bookingData.transferProof);
+        });
+      }
+
+      // Save booking data to Firestore
       await addDoc(collection(db, 'bookings'), {
-        ...bookingData,
+        room: bookingData.room,
+        action: bookingData.action,
+        checkInDate: bookingData.checkInDate,
+        checkInTime: bookingData.checkInTime,
+        subtotal: bookingData.subtotal,
+        tax: bookingData.tax,
+        total: bookingData.total,
+        originBank: bookingData.originBank,
+        senderName: bookingData.senderName,
+        transferProof: transferProofData,
         userId: user.uid,
         createdAt: new Date()
       });
