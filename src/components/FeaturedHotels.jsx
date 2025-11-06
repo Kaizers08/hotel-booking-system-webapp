@@ -5,13 +5,13 @@ import './FeaturedHotels.css';
 const hotels = [
   {
     name: 'Family Room',
-    price: 18424,
+    price: 12000,
     image: '/family room.png',
     tier: 'Silver Tier',
   },
   {
     name: 'Seaside View',
-    price: 19544,
+    price: 11000,
     image: '/seasideview.png',
     tier: 'Gold Tier',
   },
@@ -23,19 +23,19 @@ const hotels = [
   },
   {
     name: 'Silver Tier Room',
-    price: 11144,
+    price: 11244,
     image: '/silvertieroom.png',
     tier: 'Silver Tier',
   },
   {
     name: 'Gold Tier Room',
-    price: 22344,
+    price: 18344,
     image: '/goldtierroom.png',
     tier: 'Gold Tier',
   },
   {
     name: 'The Penthouse',
-    price: 33544,
+    price: 16544,
     image: '/thepenthouse.png',
     tier: 'Penthouse',
   },

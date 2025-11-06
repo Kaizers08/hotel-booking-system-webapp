@@ -56,8 +56,10 @@
 
 .contact-form-section {
   width: 475px;
-  height: 675px;
+  min-height: 675px; /* Use min-height to allow stretching */
+  height: auto; /* Allow height to adjust based on content */
   flex-shrink: 0;
+  transition: height 0.3s ease; /* Add transition for smooth height change */
   margin: 0 auto; /* Center the form container */
   background: #FFFFFF;
   border-radius: 12px; /* Soft rounded corners */
@@ -172,4 +174,21 @@
 
 .send-message-btn:hover {
   background: linear-gradient(90deg, #907904 13.45%, #B3941E 52.7%, #FFCA1A 90.08%); /* Reverse gradient for hover */
+}
+
+.notification {
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+}
+
+.notification.success {
+  background-color: #28a745;
+}
+
+.notification.error {
+  background-color: #dc3545;
 }
