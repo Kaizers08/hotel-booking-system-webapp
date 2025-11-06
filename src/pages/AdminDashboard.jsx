@@ -293,6 +293,8 @@ const AdminDashboard = () => {
 
 
 
+
+
   if (!isAdmin) {
     return <div>Checking permissions...</div>;
   }
@@ -371,6 +373,7 @@ const AdminDashboard = () => {
           >
             Room Management
           </button>
+
           <button
             className={`filter-btn ${activeTab === 'bookings' ? 'active' : ''}`}
             onClick={() => setActiveTab('bookings')}
@@ -384,6 +387,8 @@ const AdminDashboard = () => {
             Users ({users.length})
           </button>
         </div>
+
+
 
         {/* Room Management Tab */}
         {activeTab === 'rooms' && (
@@ -677,6 +682,7 @@ const AdminDashboard = () => {
                   <tr style={{ background: 'linear-gradient(90deg, #FFCA1A 13.45%, #B3941E 52.7%, #907904 90.08%)', color: 'black' }}>
                     <th style={{ padding: '15px', textAlign: 'left', fontFamily: 'Montserrat, sans-serif !important', fontSize: '16px', fontWeight: '700' }}>Room</th>
                     <th style={{ padding: '15px', textAlign: 'left', fontFamily: 'Montserrat, sans-serif !important', fontSize: '16px', fontWeight: '700' }}>User</th>
+                    <th style={{ padding: '15px', textAlign: 'left', fontFamily: 'Montserrat, sans-serif !important', fontSize: '16px', fontWeight: '700' }}>Sender Name</th>
                     <th style={{ padding: '15px', textAlign: 'left', fontFamily: 'Montserrat, sans-serif !important', fontSize: '16px', fontWeight: '700' }}>Check-in</th>
                     <th style={{ padding: '15px', textAlign: 'left', fontFamily: 'Montserrat, sans-serif !important', fontSize: '16px', fontWeight: '700' }}>Status</th>
                     <th style={{ padding: '15px', textAlign: 'left', fontFamily: 'Montserrat, sans-serif !important', fontSize: '16px', fontWeight: '700' }}>Total</th>
@@ -698,7 +704,13 @@ const AdminDashboard = () => {
                         fontFamily: 'Montserrat, sans-serif',
                         fontSize: '14px',
                         color: '#333'
-                      }}>{userMap[booking.userId]?.displayName || userMap[booking.userId]?.email || booking.userId}</td>
+                      }}>{userMap[booking.userId]?.email || 'Unknown User'}</td>
+                      <td style={{
+                        padding: '15px',
+                        fontFamily: 'Montserrat, sans-serif',
+                        fontSize: '14px',
+                        color: '#333'
+                      }}>{booking.senderName || 'N/A'}</td>
                       <td style={{
                         padding: '15px',
                         fontFamily: 'Montserrat, sans-serif',
@@ -855,17 +867,19 @@ const AdminDashboard = () => {
               bottom: 0,
               backgroundColor: 'rgba(0, 0, 0, 0.8)',
               display: 'flex',
-              alignItems: 'center',
+              alignItems: 'flex-start',
               justifyContent: 'center',
+              paddingTop: '50px',
               zIndex: 1000,
               cursor: 'pointer'
             }}
+            //payment
             onClick={handleCloseImageModal}
           >
             <div
               style={{
-                maxWidth: '40%',
-                maxHeight: '50%',
+                maxWidth: '20%',
+                maxHeight: '20%',
                 position: 'relative'
               }}
               onClick={(e) => e.stopPropagation()}
