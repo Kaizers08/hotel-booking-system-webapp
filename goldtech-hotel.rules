@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Admin collection - check if user is admin
+    match /admins/{adminId} {
+      allow read: if request.auth != null; // Allow any authenticated user to read admin list for client-side check
+      allow write: if false; // Only allow read for admin check
+    }
+
+    match /users/{userId} {
+      allow read, create, update: if request.auth != null && request.auth.uid == userId;
+      allow delete: if false; // Walang user ang pwedeng mag-delete ng sarili nilang profile sa frontend
+    }
+
+    match /bookings/{bookingId} {
+      // Users can read their own bookings
+      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+      // Users can create bookings
+      allow create: if request.auth != null;
+      // Only admins can update or delete bookings
+      allow update: if request.auth != null; // TEMPORARY: Relaxed for debugging
+      allow delete: if request.auth != null; // TEMPORARY: Relaxed for debugging
+    }
+
+    match /rooms/{roomId} {
+      allow read: if request.auth != null; // Allow authenticated users to read room list
+      allow create, update, delete: if request.auth != null &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.token.email));
+    }
+
+    // Default rule para sa ibang collections (mas mahigpit)
+    match /{document=**} {
+      allow read: if request.auth != null;
+      allow write: if false; // Walang write access sa ibang collections maliban sa 'users', 'bookings', at 'rooms'
+    }
+  }
+}
