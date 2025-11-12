@@ -289,6 +289,16 @@ const AdminDashboard = () => {
     }
   };
 
+  // Function to format time from 24-hour to 12-hour format
+  const formatTime12Hour = (timeString) => {
+    if (!timeString) return 'N/A';
+    const [hours, minutes] = timeString.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const hour12 = hour % 12 || 12;
+    return `${hour12}:${minutes} ${ampm}`;
+  };
+
 
 
 
@@ -716,7 +726,16 @@ const AdminDashboard = () => {
                         fontFamily: 'Montserrat, sans-serif',
                         fontSize: '14px',
                         color: '#333'
-                      }}>{booking.checkInDate || 'N/A'}</td>
+                      }}>
+                        {booking.checkInDate ? (
+                          <div>
+                            <div>{booking.checkInDate}</div>
+                            <div style={{ fontSize: '12px', color: '#666', marginTop: '2px' }}>
+                              {formatTime12Hour(booking.checkInTime)}
+                            </div>
+                          </div>
+                        ) : 'N/A'}
+                      </td>
                       <td style={{
                         padding: '15px',
                         fontFamily: 'Montserrat, sans-serif',

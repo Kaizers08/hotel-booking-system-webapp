@@ -82,6 +82,9 @@ const PaymentInstructionStep = ({ room, action, onNext, onBack }) => {
   const [checkInDate, setCheckInDate] = useState('');
   const [checkInTime, setCheckInTime] = useState('');
 
+  // Get today's date in YYYY-MM-DD format to prevent past date selection
+  const today = new Date().toISOString().split('T')[0];
+
   const subtotal = room.price;
   const tax = Math.round(subtotal * 0.12);
   const total = subtotal + tax;
@@ -137,24 +140,19 @@ const PaymentInstructionStep = ({ room, action, onNext, onBack }) => {
                   className="form-input"
                   value={checkInDate}
                   onChange={(e) => setCheckInDate(e.target.value)}
+                  min={today}
                   required
                 />
               </div>
               <div className="form-group">
                 <label className="form-label">Check-in Time:</label>
-                <select
+                <input
+                  type="time"
                   className="form-input"
                   value={checkInTime}
                   onChange={(e) => setCheckInTime(e.target.value)}
                   required
-                >
-                  <option value="">Select Time</option>
-                  <option value="14:00">2:00 PM</option>
-                  <option value="15:00">3:00 PM</option>
-                  <option value="16:00">4:00 PM</option>
-                  <option value="17:00">5:00 PM</option>
-                  <option value="18:00">6:00 PM</option>
-                </select>
+                />
               </div>
             </div>
           </div>
