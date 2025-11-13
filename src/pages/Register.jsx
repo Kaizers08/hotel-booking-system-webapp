@@ -70,26 +70,39 @@ const Register = () => {
     if (Object.keys(newErrors).length === 0) {
       setIsLoading(true);
       try {
+        // Create Firebase Auth account
         await createUserWithEmailAndPassword(auth, formData.email, formData.password);
         await updateProfile(auth.currentUser, { displayName: formData.fullName });
 
-        // Save user data to Firestore
-        console.log('Saving email user to Firestore:', {
-          email: formData.email,
-          displayName: formData.fullName,
-          uid: auth.currentUser.uid
-        });
+        console.log('Firebase Auth account created successfully');
 
-        await addDoc(collection(db, 'users'), {
-          email: formData.email,
-          displayName: formData.fullName,
-          uid: auth.currentUser.uid,
-          createdAt: new Date()
-        });
-
-        console.log('Email user saved successfully');
+        // Navigate to dashboard immediately after auth success
         navigate('/dashboard');
+
+        // Save user data to Firestore in background (non-blocking)
+        try {
+          console.log('Saving email user to Firestore:', {
+            email: formData.email,
+            displayName: formData.fullName,
+            uid: auth.currentUser.uid
+          });
+
+          await addDoc(collection(db, 'users'), {
+            email: formData.email,
+            displayName: formData.fullName,
+            uid: auth.currentUser.uid,
+            createdAt: new Date()
+          });
+
+          console.log('Email user saved to Firestore successfully');
+        } catch (firestoreError) {
+          console.error('Error saving user to Firestore:', firestoreError);
+          // Note: User is already created and logged in, but data not saved to Firestore
+          // This won't block the user experience
+        }
+
       } catch (error) {
+        console.error('Registration error:', error);
         if (error.code === 'auth/email-already-in-use') {
           newErrors.email = 'Email already in use';
         } else if (error.code === 'auth/weak-password') {

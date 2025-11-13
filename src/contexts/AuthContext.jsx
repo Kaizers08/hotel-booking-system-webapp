@@ -65,6 +65,7 @@ export const AuthProvider = ({ children }) => {
         senderName: bookingData.senderName,
         transferProof: transferProofData,
         userId: user.uid,
+        userEmail: user.email,
         createdAt: new Date()
       });
       return 'Booking saved successfully';

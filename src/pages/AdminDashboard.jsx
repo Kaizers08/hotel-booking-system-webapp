@@ -88,7 +88,8 @@ const AdminDashboard = () => {
       console.log('Loading users from Firestore...');
       const usersSnapshot = await getDocs(collection(db, 'users'));
       const usersData = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      console.log('Users loaded:', usersData.length, usersData);
+      console.log('Users loaded:', usersData.length, 'users');
+      console.log('User data sample:', usersData.slice(0, 3)); // Log first 3 users
       setUsers(usersData);
 
       // Create user map for quick lookup by UID
@@ -285,6 +286,50 @@ const AdminDashboard = () => {
       } catch (error) {
         console.error('Error deleting booking:', error);
         showNotification('❌ Error: Failed to delete booking. Please try again.', 'error');
+      }
+    }
+  };
+
+  const handleDeleteUser = async (userId) => {
+    if (window.confirm('⚠️ Are you sure you want to delete this user? This action cannot be undone and will also delete all their bookings.')) {
+      try {
+        console.log('Starting user deletion for userId:', userId);
+
+        // Find the user to get their Firebase Auth UID
+        const userToDelete = users.find(user => user.id === userId);
+        console.log('User to delete:', userToDelete);
+
+        if (!userToDelete) {
+          throw new Error('User not found in local state');
+        }
+
+        const firebaseUid = userToDelete.uid;
+        console.log('Firebase UID:', firebaseUid);
+
+        // Delete user document from Firestore
+        console.log('Deleting user document:', userId);
+        await deleteDoc(doc(db, 'users', userId));
+        console.log('User document deleted successfully');
+
+        // Also delete all bookings associated with this user (using Firebase Auth UID)
+        const userBookings = bookings.filter(booking => booking.userId === firebaseUid);
+        console.log('Found', userBookings.length, 'bookings to delete');
+
+        for (const booking of userBookings) {
+          console.log('Deleting booking:', booking.id);
+          await deleteDoc(doc(db, 'bookings', booking.id));
+        }
+        console.log('All bookings deleted successfully');
+
+        // Update local state
+        setUsers(users.filter(user => user.id !== userId));
+        setBookings(bookings.filter(booking => booking.userId !== firebaseUid));
+
+        showNotification('✅ User and their bookings have been successfully deleted!');
+      } catch (error) {
+        console.error('Error deleting user:', error);
+        console.error('Error details:', error.message, error.code, error);
+        showNotification(`❌ Error: ${error.message}`, 'error');
       }
     }
   };
@@ -714,7 +759,7 @@ const AdminDashboard = () => {
                         fontFamily: 'Montserrat, sans-serif',
                         fontSize: '14px',
                         color: '#333'
-                      }}>{userMap[booking.userId]?.email || 'Unknown User'}</td>
+                      }}>{booking.userEmail || userMap[booking.userId]?.email || 'Unknown User'}</td>
                       <td style={{
                         padding: '15px',
                         fontFamily: 'Montserrat, sans-serif',
@@ -844,6 +889,7 @@ const AdminDashboard = () => {
                     <th style={{ padding: '15px', textAlign: 'left', fontFamily: 'Montserrat, sans-serif !important', fontSize: '16px', fontWeight: '700' }}>Email</th>
                     <th style={{ padding: '15px', textAlign: 'left', fontFamily: 'Montserrat, sans-serif !important', fontSize: '16px', fontWeight: '700' }}>Name</th>
                     <th style={{ padding: '15px', textAlign: 'left', fontFamily: 'Montserrat, sans-serif !important', fontSize: '16px', fontWeight: '700' }}>Registration Date</th>
+                    <th style={{ padding: '15px', textAlign: 'center', fontFamily: 'Montserrat, sans-serif !important', fontSize: '16px', fontWeight: '700' }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -867,6 +913,24 @@ const AdminDashboard = () => {
                         fontSize: '14px',
                         color: '#333'
                       }}>{user.createdAt?.toDate()?.toLocaleDateString() || 'N/A'}</td>
+                      <td style={{ padding: '15px', textAlign: 'center' }}>
+                        <button
+                          onClick={() => handleDeleteUser(user.id)}
+                          style={{
+                            background: '#dc3545',
+                            color: 'white',
+                            border: 'none',
+                            padding: '5px 10px',
+                            borderRadius: '5px',
+                            cursor: 'pointer',
+                            fontFamily: 'Montserrat, sans-serif',
+                            fontSize: '12px',
+                            fontWeight: '600'
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

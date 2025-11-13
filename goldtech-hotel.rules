@@ -9,7 +9,9 @@ service cloud.firestore {
 
     match /users/{userId} {
       allow read, create, update: if request.auth != null && request.auth.uid == userId;
-      allow delete: if false; // Walang user ang pwedeng mag-delete ng sarili nilang profile sa frontend
+      // Allow admins to delete users
+      allow delete: if request.auth != null &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.token.email));
     }
 
     match /bookings/{bookingId} {
