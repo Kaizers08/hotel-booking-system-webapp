@@ -1,4 +1,7 @@
 {
+  "firestore": {
+    "rules": "goldtech-hotel.rules"
+  },
   "hosting": {
     "public": "dist",
     "ignore": [

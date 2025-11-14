@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
+import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import './Login.css'; // Custom Login styles
 import Header from '../components/header.jsx';
 import Footer from '../components/footer.jsx';
@@ -16,7 +17,27 @@ const Login = () => {
   const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // Check if user already exists in Firestore
+      const usersRef = collection(db, 'users');
+      const q = query(usersRef, where('uid', '==', user.uid));
+      const querySnapshot = await getDocs(q);
+
+      // If user doesn't exist, save them to Firestore
+      if (querySnapshot.empty) {
+        await addDoc(collection(db, 'users'), {
+          email: user.email,
+          displayName: user.displayName,
+          uid: user.uid,
+          createdAt: new Date()
+        });
+        console.log('New Google user saved to Firestore');
+      } else {
+        console.log('Existing Google user found');
+      }
+
       navigate('/dashboard');
     } catch (error) {
       console.error('Google sign-in error:', error);

@@ -31,8 +31,17 @@ const RoomDetailsModal = ({ room, onClose, onBookNow, onReserveRoom }) => {
             <p className="modal-availability">Available Rooms: <span className="available-count">{room.available}</span></p>
             <p className="modal-description">{room.details}</p>
             <div className="modal-buttons">
-              <button onClick={onBookNow} className="modal-book-btn">Book Now</button>
-              <button onClick={onReserveRoom} className="modal-reserve-btn">Reserve Room</button>
+              {room.available > 0 ? (
+                <>
+                  <button onClick={onBookNow} className="modal-book-btn">Book Now</button>
+                  <button onClick={onReserveRoom} className="modal-reserve-btn">Reserve Room</button>
+                </>
+              ) : (
+                <div className="unavailable-message">
+                  <p>🚫 Currently Unavailable</p>
+                  <p>This room is fully booked. Please check back later.</p>
+                </div>
+              )}
               <button onClick={onClose} className="modal-back-btn">Back</button>
             </div>
           </div>

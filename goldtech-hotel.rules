@@ -8,9 +8,12 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
-      allow read, create, update: if request.auth != null && request.auth.uid == userId;
-      // Allow admins to delete users
-      allow delete: if request.auth != null &&
+      // Allow authenticated users to create user documents (for registration)
+      allow create: if request.auth != null;
+      // Allow users to read and update their own documents
+      allow read, update: if request.auth != null && request.auth.uid == resource.data.uid;
+      // Allow admins to read all users and delete users
+      allow read, delete: if request.auth != null &&
         exists(/databases/$(database)/documents/admins/$(request.auth.token.email));
     }
 

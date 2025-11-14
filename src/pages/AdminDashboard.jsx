@@ -16,6 +16,8 @@ const AdminDashboard = () => {
   const [userMap, setUserMap] = useState({});
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [adminEmails, setAdminEmails] = useState([]);
+
 
   // Form states
   const [showAddRoom, setShowAddRoom] = useState(false);
@@ -52,11 +54,12 @@ const AdminDashboard = () => {
 
     try {
       const adminDoc = await getDocs(collection(db, 'admins'));
-      const adminEmails = adminDoc.docs.map(doc => doc.data().email);
-      const userIsAdmin = adminEmails.includes(user.email);
+      const adminEmailsList = adminDoc.docs.map(doc => doc.data().email);
+      const userIsAdmin = adminEmailsList.includes(user.email);
 
       if (userIsAdmin) {
         setIsAdmin(true);
+        setAdminEmails(adminEmailsList);
       } else {
         navigate('/');
       }
@@ -67,43 +70,64 @@ const AdminDashboard = () => {
   };
 
   const loadData = async () => {
-    try {
-      // Load rooms
-      const roomsSnapshot = await getDocs(collection(db, 'rooms'));
-      const roomsData = roomsSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setRooms(roomsData);
+    const maxRetries = 3;
+    let retryCount = 0;
 
-      // Load bookings
-      const bookingsSnapshot = await getDocs(collection(db, 'bookings'));
-      const bookingsData = bookingsSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setBookings(bookingsData);
+    const loadWithRetry = async () => {
+      try {
+        // Load rooms
+        console.log('Loading rooms...');
+        const roomsSnapshot = await getDocs(collection(db, 'rooms'));
+        const roomsData = roomsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setRooms(roomsData);
+        console.log('Rooms loaded:', roomsData.length);
 
-      // Load users and create user map for bookings
-      console.log('Loading users from Firestore...');
-      const usersSnapshot = await getDocs(collection(db, 'users'));
-      const usersData = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      console.log('Users loaded:', usersData.length, 'users');
-      console.log('User data sample:', usersData.slice(0, 3)); // Log first 3 users
-      setUsers(usersData);
+        // Load bookings
+        console.log('Loading bookings...');
+        const bookingsSnapshot = await getDocs(collection(db, 'bookings'));
+        const bookingsData = bookingsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setBookings(bookingsData);
+        console.log('Bookings loaded:', bookingsData.length);
 
-      // Create user map for quick lookup by UID
-      const userLookupMap = {};
-      usersData.forEach(user => {
-        userLookupMap[user.uid] = user;
-      });
-      setUserMap(userLookupMap);
+        // Load users and create user map for bookings
+        console.log('Loading users from Firestore...');
+        const usersSnapshot = await getDocs(collection(db, 'users'));
+        const usersData = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        console.log('Users loaded:', usersData.length, 'users');
+        console.log('User data sample:', usersData.slice(0, 3)); // Log first 3 users
+        setUsers(usersData);
 
-    } catch (error) {
-      console.error('Error loading data:', error);
-    } finally {
-      setLoading(false);
-    }
+        // Create user map for quick lookup by UID
+        const userLookupMap = {};
+        usersData.forEach(user => {
+          userLookupMap[user.uid] = user;
+        });
+        setUserMap(userLookupMap);
+
+        console.log('All data loaded successfully');
+
+      } catch (error) {
+        console.error(`Error loading data (attempt ${retryCount + 1}/${maxRetries}):`, error);
+
+        if (retryCount < maxRetries - 1) {
+          retryCount++;
+          console.log(`Retrying in 2 seconds... (${retryCount}/${maxRetries})`);
+          setTimeout(loadWithRetry, 2000);
+        } else {
+          console.error('Max retries reached. Some data may not be loaded.');
+          showNotification('⚠️ Some data could not be loaded due to network issues. Please refresh the page.', 'warning');
+        }
+      }
+    };
+
+    await loadWithRetry();
+    setLoading(false);
   };
 
   const handleRoomSubmit = async (e) => {
@@ -914,22 +938,33 @@ const AdminDashboard = () => {
                         color: '#333'
                       }}>{user.createdAt?.toDate()?.toLocaleDateString() || 'N/A'}</td>
                       <td style={{ padding: '15px', textAlign: 'center' }}>
-                        <button
-                          onClick={() => handleDeleteUser(user.id)}
-                          style={{
-                            background: '#dc3545',
-                            color: 'white',
-                            border: 'none',
-                            padding: '5px 10px',
-                            borderRadius: '5px',
-                            cursor: 'pointer',
+                        {adminEmails.includes(user.email) ? (
+                          <span style={{
+                            color: '#666',
                             fontFamily: 'Montserrat, sans-serif',
                             fontSize: '12px',
-                            fontWeight: '600'
-                          }}
-                        >
-                          Delete
-                        </button>
+                            fontStyle: 'italic'
+                          }}>
+                            Admin
+                          </span>
+                        ) : (
+                          <button
+                            onClick={() => handleDeleteUser(user.id)}
+                            style={{
+                              background: '#dc3545',
+                              color: 'white',
+                              border: 'none',
+                              padding: '5px 10px',
+                              borderRadius: '5px',
+                              cursor: 'pointer',
+                              fontFamily: 'Montserrat, sans-serif',
+                              fontSize: '12px',
+                              fontWeight: '600'
+                            }}
+                          >
+                            Delete
+                          </button>
+                        )}
                       </td>
                     </tr>
                   ))}

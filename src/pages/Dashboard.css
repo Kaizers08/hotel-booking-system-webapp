@@ -363,6 +363,32 @@
   background-color: #555;
 }
 
+/* Unavailable Room Message */
+.unavailable-message {
+  text-align: center;
+  color: #ff6b6b;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: rgba(255, 107, 107, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.unavailable-message p:first-child {
+  font-size: 18px;
+  margin-bottom: 5px;
+  color: #ff4757;
+}
+
+.unavailable-message p:last-child {
+  font-size: 14px;
+  color: #ccc;
+  font-weight: 400;
+  margin: 0;
+}
+
 /* Payment Method Page Styles */
 .step-indicator {
   display: flex;
